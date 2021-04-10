@@ -24,7 +24,7 @@ const Home: React.FC = () => {
             lista.map(item => 
               <IonItem key={item.id}
               button
-              routerLink={`/itens/${item.id}`}
+              routerLink={`/meu/itens/${item.id}`}
               >{item.titulo}</IonItem>
             )
           }  
