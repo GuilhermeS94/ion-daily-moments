@@ -13,6 +13,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import Home from "./paginas/Home";
 import Configs from "./paginas/Configs";
+import Item from "./paginas/Item";
 import { IonReactRouter } from '@ionic/react-router';
 
 const App: React.FC = () => {
@@ -21,16 +22,19 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/home">
+            <Route exact path="/itens">
               <Home />
+            </Route>
+            <Route exact path="/itens/:id">
+              <Item />
             </Route>
             <Route exact path="/configs">
               <Configs />
             </Route>
-            <Redirect exact path="/" to="/home" />
+            <Redirect exact path="/" to="/itens" />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tbHome" href="/home">
+            <IonTabButton tab="tbHome" href="/itens">
               <IonIcon icon={homeIC} />
               <IonLabel>
                 Home
