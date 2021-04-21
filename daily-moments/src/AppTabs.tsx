@@ -13,12 +13,10 @@ import { Route, Redirect } from "react-router-dom";
 import Home from "./paginas/Home";
 import Configs from "./paginas/Configs";
 import Item from "./paginas/Item";
+import { useAuth } from './auto';
 
-interface TelaProps {
-  usuarioLogado: boolean;
-}
-
-const AppTabs: React.FC<TelaProps> = ({usuarioLogado}) => {
+const AppTabs: React.FC = () => {
+  const { usuarioLogado } = useAuth();
   if(!usuarioLogado){
     return <Redirect to="/login" />;
   }
