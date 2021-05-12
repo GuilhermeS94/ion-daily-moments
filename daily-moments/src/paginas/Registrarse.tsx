@@ -17,7 +17,7 @@ import { Redirect } from 'react-router';
 import { useAuth } from "../auto";
 import { customAuth } from "../cus.firebase";
 
-const Login: React.FC = () => {
+const Registrarse: React.FC = () => {
   const { usuarioLogado } = useAuth();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -27,12 +27,12 @@ const Login: React.FC = () => {
     return <Redirect to="/meu/itens" />;
   }
 
-  const logar = async () => {
+  const registrar = async () => {
     try{
       setSstatusReq({carregando: true, temErro:false});
-      //const credenciais = await customAuth.signInWithEmailAndPassword("usuario1@email.com", "usuario1");
-      const credenciais = await customAuth.signInWithEmailAndPassword(email, senha);
-      console.log("cred: ", credenciais);
+      
+      const credenciais = await customAuth.createUserWithEmailAndPassword(email, senha);
+      
       setSstatusReq({carregando: false, temErro:false});
     }catch(erro){
       setSstatusReq({carregando: false, temErro:true});
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Login</IonTitle>
+          <IonTitle>Registrarse</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -61,13 +61,13 @@ const Login: React.FC = () => {
           </IonItem>
         </IonList>
         { statusReq.temErro &&  
-          <IonText color="danger">Email ou senha inválidos!</IonText>}
-        <IonButton expand="block" onClick={logar}>Login</IonButton>
-        <IonButton expand="block" fill="clear" routerLink="/registrarse">Nāo tem conta?</IonButton>
+          <IonText color="danger">Erro ao criar conta!</IonText>}
+        <IonButton expand="block" onClick={registrar}>Criar Conta</IonButton>
+        <IonButton expand="block" fill="clear" routerLink="/login">Já tem conta?</IonButton>
         <IonLoading isOpen={statusReq.carregando} />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Login;
+export default Registrarse;

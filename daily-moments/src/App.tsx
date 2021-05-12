@@ -6,33 +6,31 @@ import { Route, Redirect, Switch } from "react-router-dom";
 
 import Login from "./paginas/Login";
 import AppTabs from "./AppTabs";
-import { AuthContext } from "./auto";
+import { AuthContext, InitAuth } from "./auto";
 import { IonReactRouter } from '@ionic/react-router';
 import Page404 from './paginas/Page404';
 import { customAuth } from "./cus.firebase";
+import Registrarse from './paginas/Registrarse';
 
 
 const App: React.FC = () => {
 
-  const [statusAuth, setStatusAuth] = useState({carregando: true, usuarioLogado: false});
+  const { carregando, autorizado } = InitAuth();
 
-  useEffect(()=> {
-    customAuth.onAuthStateChanged((usuario) =>{
-      setStatusAuth({carregando: false, usuarioLogado: Boolean(usuario)});
-    });
-  }, []);
-
-  if(statusAuth.carregando){
+  if(carregando){
     return <IonLoading isOpen />;
   }
 
   return (
     <IonApp>
-      <AuthContext.Provider value={{ usuarioLogado: statusAuth.usuarioLogado }}>
+      <AuthContext.Provider value={autorizado}>
         <IonReactRouter>
           <Switch>
-          <Route exact path="/login">
+            <Route exact path="/login">
                 <Login />
+            </Route>
+            <Route exact path="/registrarse">
+                <Registrarse />
             </Route>
             <Route path="/meu">
               <AppTabs />
