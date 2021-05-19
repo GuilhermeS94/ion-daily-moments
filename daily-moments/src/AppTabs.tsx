@@ -14,6 +14,7 @@ import Home from "./paginas/Home";
 import Configs from "./paginas/Configs";
 import Item from "./paginas/Item";
 import { useAuth } from './auto';
+import AddItem from './paginas/AddItem';
 
 const AppTabs: React.FC = () => {
   const { usuarioLogado } = useAuth();
@@ -26,8 +27,11 @@ const AppTabs: React.FC = () => {
         <Route exact path="/meu/itens">
           <Home />
         </Route>
-        <Route exact path="/meu/itens/:id">
+        <Route exact path="/meu/itens/tela/:id">
           <Item />
+        </Route>
+        <Route exact path="/meu/itens/add">
+          <AddItem />
         </Route>
         <Route exact path="/meu/configs">
           <Configs />

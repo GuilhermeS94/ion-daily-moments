@@ -1,14 +1,18 @@
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
+import { trash as lixoIcone } from "ionicons/icons";
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
+import { useAuth } from '../auto';
 import { firestoredb } from "../cus.firebase";
 import { ItemModel, toItemModel } from "../modelos";
 
@@ -17,12 +21,21 @@ interface ParametrosEsperados {
 }
 
 const Item: React.FC = () => {
-  const { id } = useParams<ParametrosEsperados>();
+  const { usuarioId } = useAuth();
+  const testar = useRouteMatch<ParametrosEsperados>();
+  const { id } = testar.params;
   const [item, setItem] = useState<ItemModel>();
+  const historico = useHistory();
   useEffect(() => {
-    const aux = firestoredb.collection("lista").doc(id);
-    aux.get().then((doc) => setItem(toItemModel(doc)));
-  }, [id]);
+    const itemRef = firestoredb.collection("usuarios").doc(usuarioId).collection("lista").doc(id);
+    itemRef.get().then((doc) => setItem(toItemModel(doc)));
+  }, [usuarioId, id]);
+
+  const handleDeletar = async () => {
+    const itemRef = firestoredb.collection("usuarios").doc(usuarioId).collection("lista").doc(id);
+    await itemRef.delete();
+    historico.goBack();
+  };
   
   return (
     <IonPage>
@@ -32,6 +45,11 @@ const Item: React.FC = () => {
             <IonBackButton />
           </IonButtons>
           <IonTitle>{item?.titulo}</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={handleDeletar}>
+              <IonIcon icon={lixoIcone} slot="icon-only" />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

@@ -1,12 +1,16 @@
 import {
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonIcon,
   IonItem,
   IonList,
   IonPage,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
+import { add as addIcone } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auto';
 import { firestoredb } from "../cus.firebase";
@@ -17,9 +21,7 @@ const Home: React.FC = () => {
   const [lista, setLista] = useState<ItemModel[]>([]);
   useEffect(() => {
     const listaRef = firestoredb.collection("usuarios").doc(usuarioId).collection("lista");
-    listaRef.get().then(({docs}) => {
-      setLista(docs.map(toItemModel));
-    });
+    return listaRef.onSnapshot(({docs}) => setLista(docs.map(toItemModel)));
   }, [usuarioId]);
 
   return (
@@ -35,11 +37,16 @@ const Home: React.FC = () => {
             lista.map(item => 
               <IonItem key={item.id}
               button
-              routerLink={`/meu/itens/${item.id}`}
+              routerLink={`/meu/itens/tela/${item.id}`}
               >{item.titulo}</IonItem>
             )
           }  
         </IonList>
+        <IonFab vertical="bottom" horizontal="end">
+          <IonFabButton routerLink="/meu/itens/add">
+            <IonIcon icon={addIcone} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );

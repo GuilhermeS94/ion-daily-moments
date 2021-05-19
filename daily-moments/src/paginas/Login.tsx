@@ -30,9 +30,7 @@ const Login: React.FC = () => {
   const logar = async () => {
     try{
       setSstatusReq({carregando: true, temErro:false});
-      //const credenciais = await customAuth.signInWithEmailAndPassword("usuario1@email.com", "usuario1");
       const credenciais = await customAuth.signInWithEmailAndPassword(email, senha);
-      console.log("cred: ", credenciais);
       setSstatusReq({carregando: false, temErro:false});
     }catch(erro){
       setSstatusReq({carregando: false, temErro:true});
