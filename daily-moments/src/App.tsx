@@ -1,7 +1,7 @@
 import {
   IonApp, IonLoading,
 } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import Login from "./paginas/Login";
@@ -9,7 +9,6 @@ import AppTabs from "./AppTabs";
 import { AuthContext, InitAuth } from "./auto";
 import { IonReactRouter } from '@ionic/react-router';
 import Page404 from './paginas/Page404';
-import { customAuth } from "./cus.firebase";
 import Registrarse from './paginas/Registrarse';
 
 

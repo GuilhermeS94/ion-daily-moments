@@ -7,10 +7,21 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import React from 'react';
-import { lista } from "../mock-dados/mock-lista";
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../auto';
+import { firestoredb } from "../cus.firebase";
+import { ItemModel, toItemModel } from "../modelos";
 
 const Home: React.FC = () => {
+  const { usuarioId } = useAuth();
+  const [lista, setLista] = useState<ItemModel[]>([]);
+  useEffect(() => {
+    const listaRef = firestoredb.collection("usuarios").doc(usuarioId).collection("lista");
+    listaRef.get().then(({docs}) => {
+      setLista(docs.map(toItemModel));
+    });
+  }, [usuarioId]);
+
   return (
     <IonPage>
       <IonHeader>

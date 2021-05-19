@@ -1,4 +1,3 @@
-import { flask } from "ionicons/icons";
 import React, { useContext, useEffect, useState } from "react";
 import { customAuth as firebaseAuth } from "./cus.firebase";
 

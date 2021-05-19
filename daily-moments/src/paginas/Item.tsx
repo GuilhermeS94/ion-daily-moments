@@ -7,9 +7,10 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { lista } from "../mock-dados/mock-lista";
+import { firestoredb } from "../cus.firebase";
+import { ItemModel, toItemModel } from "../modelos";
 
 interface ParametrosEsperados {
   id: string;
@@ -17,10 +18,12 @@ interface ParametrosEsperados {
 
 const Item: React.FC = () => {
   const { id } = useParams<ParametrosEsperados>();
-  const item = lista.find((procurar) => procurar.id === id);
-  if(!item){
-    throw new Error(`Nenhum registro encontrado com ID: ${id}`);
-  }
+  const [item, setItem] = useState<ItemModel>();
+  useEffect(() => {
+    const aux = firestoredb.collection("lista").doc(id);
+    aux.get().then((doc) => setItem(toItemModel(doc)));
+  }, [id]);
+  
   return (
     <IonPage>
       <IonHeader>
@@ -28,11 +31,11 @@ const Item: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>{item.titulo}</IonTitle>
+          <IonTitle>{item?.titulo}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {item.descricao}
+        {item?.descricao}
       </IonContent>
     </IonPage>
   );
