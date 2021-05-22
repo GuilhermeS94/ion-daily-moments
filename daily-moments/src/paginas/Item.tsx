@@ -15,6 +15,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { useAuth } from '../auto';
 import { firestoredb } from "../cus.firebase";
 import { ItemModel, toItemModel } from "../modelos";
+import { formatarDataParaView } from "../utilitarios";
 
 interface ParametrosEsperados {
   id: string;
@@ -44,7 +45,7 @@ const Item: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>{item?.titulo}</IonTitle>
+          <IonTitle>{formatarDataParaView(item?.dia)}</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={handleDeletar}>
               <IonIcon icon={lixoIcone} slot="icon-only" />
@@ -53,7 +54,9 @@ const Item: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {item?.descricao}
+        <h2>{item?.titulo}</h2>
+        <img src={item?.fotoUrl} alt={item?.titulo} />
+        <p>{item?.descricao}</p>
       </IonContent>
     </IonPage>
   );
